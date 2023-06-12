@@ -29,4 +29,50 @@ func TestLevel(t *testing.T) {
 	buff.Reset()
 	require.NoError(t, l.write(LevelError, "Hello %q", "George"))
 	require.Equal(t, "", buff.String())
+
+	const COMETS = 0x10000000
+	RegisterLevel(COMETS, "COMETS")
+
+	buff.Reset()
+	require.NoError(t, l.write(COMETS, "Hello %q", "George"))
+	require.Equal(t, "", buff.String())
+
+	l.SetLevel(COMETS)
+	buff.Reset()
+	require.NoError(t, l.write(COMETS, "Hello %q", "George"))
+	require.Equal(t, "[COMETS|K8s] Hello \"George\"\n", buff.String())
+
+	l.SetLevel(COMETS | LevelDebug)
+	buff.Reset()
+	require.NoError(t, l.write(COMETS, "Hello %q", "George"))
+	require.Equal(t, "[COMETS|K8s] Hello \"George\"\n", buff.String())
+
+	buff.Reset()
+	require.NoError(t, l.write(COMETS|LevelDebug, "Hello %q", "George"))
+	require.Equal(t, "[COMETS|DEBUG|K8s] Hello \"George\"\n", buff.String())
+
+	l.SetLevel(COMETS)
+	buff.Reset()
+	require.NoError(t, l.write(COMETS|LevelDebug, "Hello %q", "George"))
+	require.Equal(t, "[COMETS|K8s] Hello \"George\"\n", buff.String())
+
+	UnRegisterLevel(COMETS)
+	buff.Reset()
+	require.NoError(t, l.write(COMETS|LevelDebug, "Hello %q", "George"))
+	require.Equal(t, "", buff.String())
+
+	l.SetLevel(COMETS | LevelDebug)
+	buff.Reset()
+	require.NoError(t, l.write(COMETS|LevelDebug, "Hello %q", "George"))
+	require.Equal(t, "[DEBUG|K8s] Hello \"George\"\n", buff.String())
+
+	UnRegisterLevel(LevelDebug)
+	buff.Reset()
+	require.NoError(t, l.write(COMETS|LevelDebug, "Hello %q", "George"))
+	require.Equal(t, "", buff.String())
+
+	RegisterLevel(COMETS, "COMETS")
+	buff.Reset()
+	require.NoError(t, l.write(COMETS|LevelDebug, "Hello %q", "George"))
+	require.Equal(t, "[COMETS|K8s] Hello \"George\"\n", buff.String())
 }

@@ -34,6 +34,10 @@ func RegisterLevel(level int, name string) {
 	levels[level] = name
 }
 
+func UnRegisterLevel(level int) {
+	delete(levels, level)
+}
+
 type Logger struct {
 	w      io.Writer
 	level  int
@@ -49,6 +53,10 @@ func NewLogger(w io.Writer, level int) *Logger {
 		w:     w,
 		level: level,
 	}
+}
+
+func (l *Logger) SetLevel(level int) {
+	l.level = level
 }
 
 func (l *Logger) SetPrefix(prefix string) {
@@ -89,6 +97,10 @@ func (l *Logger) write(messageLevel int, msg string, args ...interface{}) error 
 		if l.level&level&messageLevel != 0 {
 			levelPrefixes = append(levelPrefixes, prefix)
 		}
+	}
+
+	if len(levelPrefixes) == 0 {
+		return nil
 	}
 
 	sort.Strings(levelPrefixes)
