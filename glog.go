@@ -174,6 +174,24 @@ func (l *Logger) AtLevelf(level int, msg string, args ...interface{}) {
 	l.writef(level, msg, args...)
 }
 
+func (l *Logger) CustomLogAtLevel(level int) func(args ...interface{}) {
+	return func(args ...interface{}) {
+		l.AtLevel(level, args...)
+	}
+}
+
+func (l *Logger) CustomLogAtLevelln(level int) func(args ...interface{}) {
+	return func(args ...interface{}) {
+		l.AtLevelln(level, args...)
+	}
+}
+
+func (l *Logger) CustomLogAtLevelf(level int) func(msg string, args ...interface{}) {
+	return func(msg string, args ...interface{}) {
+		l.AtLevelf(level, msg, args...)
+	}
+}
+
 func (l *Logger) writeln(messageLevel int, args ...interface{}) error {
 	if messageLevel&l.level == 0 {
 		return nil

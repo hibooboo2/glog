@@ -103,19 +103,15 @@ func AtLevelf(level int, msg string, args ...interface{}) {
 }
 
 func CustomLogAtLevel(level int) func(args ...interface{}) {
-	return func(args ...interface{}) {
-		DefaultLogger.AtLevel(level, args...)
-	}
+	return DefaultLogger.CustomLogAtLevel(level)
+
 }
 
 func CustomLogAtLevelln(level int) func(args ...interface{}) {
-	return func(args ...interface{}) {
-		DefaultLogger.AtLevelln(level, args...)
-	}
+	return DefaultLogger.CustomLogAtLevelln(level)
+
 }
 
 func CustomLogAtLevelf(level int) func(msg string, args ...interface{}) {
-	return func(msg string, args ...interface{}) {
-		DefaultLogger.AtLevelf(level, msg, args...)
-	}
+	return DefaultLogger.CustomLogAtLevelf(level)
 }
