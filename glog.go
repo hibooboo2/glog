@@ -48,6 +48,12 @@ func MaxRegisteredLevel() int {
 	return maxLevel
 }
 
+func RegisterNextLevel(name string) int {
+	level := MaxRegisteredLevel() >> 1
+	RegisterLevel(level, name)
+	return level
+}
+
 type Logger struct {
 	w      io.Writer
 	level  int
