@@ -57,7 +57,7 @@ func MaxRegisteredLevel() int {
 }
 
 func RegisterNextLevel(name string) int {
-	level := MaxRegisteredLevel() >> 1
+	level := MaxRegisteredLevel() << 1
 	RegisterLevel(level, name)
 	return level
 }
