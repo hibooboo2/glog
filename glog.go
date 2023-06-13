@@ -31,6 +31,14 @@ var levels = map[int]string{
 }
 
 func RegisterLevel(level int, name string) {
+	for registeredLevel, registeredName := range levels {
+		if name == registeredName {
+			panic(fmt.Sprintf("level %q already registered as %b cannot register as %b", registeredName, registeredLevel, level))
+		}
+		if level == registeredLevel {
+			panic(fmt.Sprintf("level %b already registered as %q cannot register as %q", registeredLevel, registeredName, name))
+		}
+	}
 	levels[level] = name
 }
 
