@@ -224,6 +224,6 @@ func (l *Logger) write(messageLevel int, args ...interface{}) error {
 	if l.prefix != "" {
 		levelPrefix = fmt.Sprintf("%s|%s", levelPrefix, l.prefix)
 	}
-	_, err := fmt.Fprintf(l.w, "[%s] %s", levelPrefix, fmt.Sprint(args...))
+	_, err := fmt.Fprintf(l.w, "[%s] %s\n", levelPrefix, fmt.Sprint(args...))
 	return err
 }
