@@ -38,6 +38,16 @@ func UnRegisterLevel(level int) {
 	delete(levels, level)
 }
 
+func MaxRegisteredLevel() int {
+	maxLevel := 0
+	for level := range levels {
+		if level > maxLevel {
+			maxLevel = level
+		}
+	}
+	return maxLevel
+}
+
 type Logger struct {
 	w      io.Writer
 	level  int
