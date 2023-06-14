@@ -81,4 +81,9 @@ func TestLevel(t *testing.T) {
 	buff.Reset()
 	require.NoError(t, l.writef(COMETS|LevelDebug, "Hello %q", "George"))
 	require.Equal(t, "[COMETS][K8s] Hello \"George\"\n", buff.String())
+
+	l.RegisterLevel(COMETS|LevelInfo, "COMETS Shift")
+	buff.Reset()
+	require.NoError(t, l.writef(COMETS|LevelInfo, "Hello %q", "George"))
+	require.Equal(t, "[COMETS Shift][K8s] Hello \"George\"\n", buff.String())
 }
