@@ -7,7 +7,23 @@ import (
 
 var DefaultLogger = NewLogger(os.Stdout, DefaultLevel)
 
-func SetLevel(level int) {
+func RegisterLevel(level uint64, name string) {
+	DefaultLogger.RegisterLevel(level, name)
+}
+
+func RegisterNextLevel(name string) {
+	DefaultLogger.RegisterNextLevel(name)
+}
+
+func UnRegisterLevel(level uint64) {
+	DefaultLogger.UnRegisterLevel(level)
+}
+
+func MaxRegisteredLevel() uint64 {
+	return DefaultLogger.NextLevelShouldRegister()
+}
+
+func SetLevel(level uint64) {
 	DefaultLogger.level = level
 }
 
@@ -90,28 +106,28 @@ func Fatalf(msg string, args ...interface{}) {
 	panic(fmt.Errorf(fmt.Sprint(args...)))
 }
 
-func AtLevel(level int, args ...interface{}) {
+func AtLevel(level uint64, args ...interface{}) {
 	DefaultLogger.write(level, args...)
 }
 
-func AtLevelln(level int, args ...interface{}) {
+func AtLevelln(level uint64, args ...interface{}) {
 	DefaultLogger.writeln(level, args...)
 }
 
-func AtLevelf(level int, msg string, args ...interface{}) {
+func AtLevelf(level uint64, msg string, args ...interface{}) {
 	DefaultLogger.writef(level, msg, args...)
 }
 
-func CustomLogAtLevel(level int) func(args ...interface{}) {
+func CustomLogAtLevel(level uint64) func(args ...interface{}) {
 	return DefaultLogger.CustomLogAtLevel(level)
 
 }
 
-func CustomLogAtLevelln(level int) func(args ...interface{}) {
+func CustomLogAtLevelln(level uint64) func(args ...interface{}) {
 	return DefaultLogger.CustomLogAtLevelln(level)
 
 }
 
-func CustomLogAtLevelf(level int) func(msg string, args ...interface{}) {
+func CustomLogAtLevelf(level uint64) func(msg string, args ...interface{}) {
 	return DefaultLogger.CustomLogAtLevelf(level)
 }
