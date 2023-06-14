@@ -11,8 +11,8 @@ func RegisterLevel(level uint64, name string) {
 	DefaultLogger.RegisterLevel(level, name)
 }
 
-func RegisterNextLevel(name string) {
-	DefaultLogger.RegisterNextLevel(name)
+func RegisterNextLevel(name string) uint64 {
+	return DefaultLogger.RegisterNextLevel(name)
 }
 
 func UnRegisterLevel(level uint64) {
