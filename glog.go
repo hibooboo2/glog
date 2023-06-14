@@ -271,10 +271,19 @@ func (l *Logger) getLevelPrefix(messageLevel uint64) string {
 		return levelPrefix
 	}
 
+	levelName, exists := l.levels[messageLevel]
+
 	levelPrefixes := []string{}
-	for level, prefix := range l.levels {
-		if l.level&level&messageLevel != 0 {
-			levelPrefixes = append(levelPrefixes, prefix)
+
+	if exists && l.level&messageLevel != 0 {
+		levelPrefixes = append(levelPrefixes, levelName)
+	}
+
+	if !exists {
+		for level, prefix := range l.levels {
+			if l.level&level&messageLevel != 0 {
+				levelPrefixes = append(levelPrefixes, prefix)
+			}
 		}
 	}
 
